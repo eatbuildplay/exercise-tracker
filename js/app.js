@@ -29,6 +29,7 @@ function renderTable( exerciseLogJson ) {
 
     var deleteButton = document.createElement('button');
     deleteButton.className = 'delete-button';
+    deleteButton.setAttribute('data-id', value.id);
     tdValue = document.createTextNode("DELETE");
     deleteButton.appendChild(tdValue);
     td.appendChild(deleteButton);
@@ -96,8 +97,29 @@ function deleteButtonClick() {
     element.addEventListener('click', function() {
 
       console.log('delete button click...')
+      let postId = this.getAttribute('data-id');
 
-      
+      var data = {action:'exercise_log_delete', id: postId};
+      var array = [];
+      Object.keys(data).forEach(element =>
+          array.push(
+              encodeURIComponent(element) + "=" + encodeURIComponent(data[element])
+          )
+      );
+      var body = array.join("&");
+
+      var xhttp = new XMLHttpRequest();
+      xhttp.open("POST", ajaxUrl, true);
+      xhttp.onreadystatechange = function() {
+         if (this.readyState == 4 && this.status == 200) {
+           // Response
+           var response = this.responseText;
+
+           console.log( response )
+         }
+      };
+      xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+      xhttp.send(body);
 
     });
   });

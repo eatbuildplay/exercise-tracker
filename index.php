@@ -1,5 +1,10 @@
 <?php
 
+$ajaxUrl = admin_url( 'admin-ajax.php' );
+print '<script type="text/javascript">';
+print 'var ajaxUrl = "' . $ajaxUrl . '"';
+print '</script>';
+
 $postArgs = [
   'post_type' => 'exercise_log',
   'postnumber' => -1
