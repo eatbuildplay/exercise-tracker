@@ -5,28 +5,6 @@ print '<script type="text/javascript">';
 print 'var ajaxUrl = "' . $ajaxUrl . '"';
 print '</script>';
 
-$postArgs = [
-  'post_type' => 'exercise_log',
-  'postnumber' => -1
-];
-$posts = get_posts( $postArgs );
-
-$objects = [];
-foreach( $posts as $post ) {
-  $obj = new stdClass;
-  $obj->id = $post->ID;
-  $obj->title = $post->post_title;
-  $obj->date = '2020-11-15';
-  $obj->exercise = 'Bodyweight Squats';
-  $objects[] = $obj;
-}
-
-$exerciseLogJson = json_encode( $objects );
-
-print '<script type="text/javascript">';
-print 'var exerciseLogJson = ' . $exerciseLogJson .';';
-print '</script>';
-
 ?>
 
 <!DOCTYPE html>
@@ -61,6 +39,8 @@ print '</script>';
         <tr>
           <th>Date</th>
           <th>Exercise</th>
+          <th>Quantity</th>
+          <th>Unit</th>
           <th>&nbsp;</th>
         </tr>
       </thead>
@@ -78,8 +58,6 @@ print '</script>';
     require_once( get_template_directory() . '/php/add_exercise_log_form.php');
     require_once( get_template_directory() . '/php/edit_exercise_log_form.php');
   ?>
-
-  <script type="text/javascript" src="<?php print get_template_directory_uri(); ?>/js/app.js"></script>
 
   <?php wp_footer(); ?>
 

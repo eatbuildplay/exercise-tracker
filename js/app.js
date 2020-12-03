@@ -1,63 +1,17 @@
-function renderTable( exerciseLogJson ) {
-
-  var exerciseLogTable = document.getElementById('exercise-log-table');
-
-  exerciseLogJson.forEach( function( value, index ) {
-
-    console.log( index );
-    console.log( value );
-
-    let row = document.createElement('tr');
-
-    var td = document.createElement('td');
-    var tdValue = document.createTextNode( value.date );
-    td.appendChild(tdValue);
-    row.appendChild(td);
-
-    td = document.createElement('td');
-    tdValue = document.createTextNode( value.exercise );
-    td.appendChild(tdValue);
-    row.appendChild(td);
-
-    // controls column
-    td = document.createElement('td');
-    var editButton = document.createElement('button');
-    editButton.className = 'edit-button';
-    tdValue = document.createTextNode("EDIT");
-    editButton.appendChild(tdValue);
-    td.appendChild(editButton);
-
-    var deleteButton = document.createElement('button');
-    deleteButton.className = 'delete-button';
-    deleteButton.setAttribute('data-id', value.id);
-    tdValue = document.createTextNode("DELETE");
-    deleteButton.appendChild(tdValue);
-    td.appendChild(deleteButton);
-    row.appendChild(td);
-
-    exerciseLogTable.appendChild(row);
-
-  });
-
-}
+jQuery(document).ready(function( $ ) {
 
 function addButtonClick() {
 
 
   let button = document.getElementById('add-log-entry-button');
   button.onclick = function(e) {
-    console.log('add button click...')
 
+    let formParent = $('#add-log-entry');
+    let form = $('#add-exercise-log-form');
+    const formClone = form.clone(1, 1);
 
-    let formParent = document.getElementById('add-log-entry');
-    let form = document.getElementById('add-exercise-log-form');
-
-    const formClone = form.cloneNode(1);
-
-    console.log( formClone )
-
-    formParent.appendChild( formClone )
-    formClone.style.display = 'block';
+    formParent.html( formClone )
+    formClone.show();
 
   }
 
@@ -65,69 +19,186 @@ function addButtonClick() {
 
 function editButtonClick() {
 
+  $( document ).on('click', '.edit-button', function() {
 
-  let buttons = document.getElementsByClassName('edit-button');
+    let itemId = $(this).data('id');
+    let item = window.objects[itemId];
 
-  Array.from( buttons ).forEach(function(element) {
-    element.addEventListener('click', function() {
-      console.log('edit button click...')
+    let formParent = $('#add-log-entry');
+    let form = $('#edit-exercise-log-form');
+    const formClone = form.clone(1, 1);
+    formParent.html( formClone );
+    formClone.find('form').attr('data-id', itemId);
+    formClone.find('#field-timestamp').val( item.date );
+    formClone.find('#field-exercise').val( item.exercise.id );
+    formClone.find('#field-quantity').val( item.quantity );
+    formClone.find('#field-unit').val( item.unit );
+    formClone.show();
 
-
-      let formParent = document.getElementById('add-log-entry');
-      let form = document.getElementById('edit-exercise-log-form');
-
-      const formClone = form.cloneNode(1);
-
-      console.log( formClone )
-
-      formParent.appendChild( formClone )
-      formClone.style.display = 'block';
-    });
   });
-
 
 }
 
 function deleteButtonClick() {
 
+  $( document ).on('click', '.delete-button', function() {
 
-  let buttons = document.getElementsByClassName('delete-button');
+    let postId = $(this).data('id');
 
-  Array.from( buttons ).forEach(function(element) {
-    element.addEventListener('click', function() {
+    var data = {
+      id: postId
+    };
+    wp.ajax.post('exercise_log_delete', data).done( function( response ) {
 
-      console.log('delete button click...')
-      let postId = this.getAttribute('data-id');
-
-      var data = {action:'exercise_log_delete', id: postId};
-      var array = [];
-      Object.keys(data).forEach(element =>
-          array.push(
-              encodeURIComponent(element) + "=" + encodeURIComponent(data[element])
-          )
-      );
-      var body = array.join("&");
-
-      var xhttp = new XMLHttpRequest();
-      xhttp.open("POST", ajaxUrl, true);
-      xhttp.onreadystatechange = function() {
-         if (this.readyState == 4 && this.status == 200) {
-           // Response
-           var response = this.responseText;
-
-           console.log( response )
-         }
-      };
-      xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-      xhttp.send(body);
+      $('tr.item-id-' + response.item).remove();
 
     });
+
   });
 
 
 }
 
-renderTable( exerciseLogJson );
-addButtonClick();
-editButtonClick();
-deleteButtonClick();
+
+
+
+  /* Prevent any forms from submitting */
+  function formSubmitPrevent() {
+    $('form').on('submit', function(e) {
+      console.log('form submit...')
+      e.preventDefault();
+    });
+  }
+
+  function load() {
+
+    const data = {}
+    wp.ajax.post('exercise_log_load', data)
+      .done( function( response ) {
+
+        let table = $('#exercise-log-table');
+
+        // stash objects in variable
+        // @TODO reindex by id first before stashing
+
+
+        var objectReference = {};
+
+        response.objects.forEach( function( item, index ) {
+
+          objectReference[item.id] = item;
+
+          var row = makeTableRow( item );
+          table.prepend( row );
+
+        });
+
+        window.objects = objectReference;
+
+      }
+    );
+
+  }
+
+  function makeTableRow( item ) {
+    var row = '<tr class="item-id-' + item.id + '">';
+    row += '<td>';
+    row += item.date;
+    row += '</td>';
+    row += '<td>';
+    row += item.exercise.title;
+    row += '</td>';
+    row += '<td>';
+    row += item.quantity;
+    row += '</td>';
+    row += '<td>';
+    row += item.unit;
+    row += '</td>';
+    row += '<td>';
+    row += '<button data-id="' + item.id + '" class="edit-button">Edit</button>';
+    row += ' --- ';
+    row += '<button data-id="' + item.id + '" class="delete-button">Delete</button>';
+    row += '</td>';
+    row += '</tr>';
+    return row;
+  }
+
+  function addFormProcess() {
+    $('form#add-form').on('submit', function(e) {
+
+      let date = $('#field-timestamp').val();
+      let exercise = $('#field-exercise').val();
+      let quantity = $('#field-quantity').val();
+      let unit = $('#field-unit').val();
+
+      const data = {
+        date: date,
+        exercise: exercise,
+        quantity: quantity,
+        unit: unit
+      }
+      wp.ajax.post('exercise_log_create', data)
+        .done( function( response ) {
+
+          let table = $('#exercise-log-table');
+
+          var row = makeTableRow( response.item );
+          table.prepend( row );
+
+        }
+      );
+
+    });
+  }
+
+  function editFormProcess() {
+    $('form#edit-form').on('submit', function(e) {
+
+      let postId = $(this).data('id');
+      let date = $('#field-timestamp').val();
+      let exercise = $('#field-exercise').val();
+      let quantity = $('#field-quantity').val();
+      let unit = $('#field-unit').val();
+
+      const data = {
+        postId: postId,
+        date: date,
+        exercise: exercise,
+        quantity: quantity,
+        unit: unit
+      }
+      wp.ajax.post('exercise_log_update', data)
+        .done( function( response ) {
+
+          var row = makeTableRow( response.item );
+          let currentRow = $('tr.item-id-' + response.item.id );
+
+          console.log( response.item.id )
+          console.log( currentRow )
+
+          currentRow.replaceWith( row );
+
+        }
+      );
+
+    });
+  }
+
+  function init() {
+
+    load();
+
+    addButtonClick();
+    editButtonClick();
+    deleteButtonClick();
+
+    formSubmitPrevent();
+    addFormProcess();
+    editFormProcess();
+
+  }
+
+  // init app
+  init();
+
+});
