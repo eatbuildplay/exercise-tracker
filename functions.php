@@ -15,14 +15,31 @@ add_action('wp_enqueue_scripts', function() {
     '1.0.0'
   );
 
+  wp_enqueue_style(
+    'bootstrap',
+    'https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css',
+    [],
+    '1.0.0'
+  );
+
+  wp_enqueue_script(
+    'bootstrap',
+    'https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js',
+    [],
+    '1.0.0',
+    true
+  );
+
   // enq script here with wp-util
   wp_enqueue_script(
     'app',
     get_template_directory_uri() . '/js/app.js',
-    ['jquery', 'wp-util'],
+    ['jquery', 'wp-util', 'bootstrap'],
     '1.0.0',
     true
   );
+
+
 
 });
 

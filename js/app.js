@@ -114,10 +114,9 @@ function deleteButtonClick() {
     row += '<td>';
     row += item.unit;
     row += '</td>';
-    row += '<td>';
-    row += '<button data-id="' + item.id + '" class="edit-button">Edit</button>';
-    row += ' --- ';
-    row += '<button data-id="' + item.id + '" class="delete-button">Delete</button>';
+    row += '<td class="item-controls">';
+    row += '<button class="edit-button btn btn-info" data-id="' + item.id + '">Edit</button>';
+    row += '<button class="delete-button btn btn-dark" data-id="' + item.id + '">Delete</button>';
     row += '</td>';
     row += '</tr>';
     return row;

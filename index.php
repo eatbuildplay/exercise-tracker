@@ -30,12 +30,12 @@ print '</script>';
 
     <!-- Add New Log Entry -->
     <div id="add-log-entry">
-      <button id="add-log-entry-button">Add Log Entry</button>
+      <button class="btn btn-primary" id="add-log-entry-button">Add Log Entry</button>
     </div>
 
     <!-- Exercise Log Table -->
-    <table id="exercise-log-table">
-      <thead>
+    <table id="exercise-log-table" class="table">
+      <thead class="thead-dark">
         <tr>
           <th>Date</th>
           <th>Exercise</th>

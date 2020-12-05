@@ -13,10 +13,38 @@ footer {
   margin-top: 50px;
 }
 
+#app-body {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
 #add-exercise-log-form {
   display: none;
 }
 
 #edit-exercise-log-form {
   display: none;
+}
+
+.item-controls {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+#add-log-entry {
+  margin: 25px 0;
+}
+
+.form-wrap {
+  max-width: 400px;
+  margin: 0 auto;
+
+}
+form {
+  border: solid 1px #D8D8D8;
+  padding: 30px;
+}
+.form-title {
+  text-align: center;
 }
