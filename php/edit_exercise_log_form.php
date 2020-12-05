@@ -17,9 +17,9 @@ foreach( $posts as $post ) {
 
 <div id="edit-exercise-log-form" class="form-wrap">
 
-  <div>X-CLOSE</div>
+  <div id="edit-form-close-icon"></div>
   <h2 class="form-title">Edit Exercise Log</h2>
-  
+
   <form id="edit-form" method="post">
 
     <div class="form-group">

@@ -26,6 +26,8 @@ print '</script>';
     <img src="https://picsum.photos/50" />
   </header>
 
+
+
   <div id="app-body">
 
     <!-- Add New Log Entry -->

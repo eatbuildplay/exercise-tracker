@@ -30,16 +30,25 @@ add_action('wp_enqueue_scripts', function() {
     true
   );
 
+
+
+  // react build
+  wp_enqueue_script(
+    'app-react',
+    get_stylesheet_directory_uri() . '/build/index.js',
+    ['wp-element'],
+    time(), //For production use wp_get_theme()->get('Version')
+    1
+  );
+
   // enq script here with wp-util
   wp_enqueue_script(
     'app',
     get_template_directory_uri() . '/js/app.js',
-    ['jquery', 'wp-util', 'bootstrap'],
-    '1.0.0',
-    true
+    ['jquery', 'app-react', 'wp-util', 'bootstrap', 'wp-element'],
+    time(),
+    1
   );
-
-
 
 });
 

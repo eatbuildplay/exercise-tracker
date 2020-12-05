@@ -1,0 +1,30 @@
+{
+  "name": "exercise-tracker",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "wp-scripts build",
+    "check-engines": "wp-scripts check-engines",
+    "check-licenses": "wp-scripts check-licenses",
+    "lint:css": "wp-scripts lint-style",
+    "lint:js": "wp-scripts lint-js",
+    "lint:pkg-json": "wp-scripts lint-pkg-json",
+    "start": "wp-scripts start",
+    "test:e2e": "wp-scripts test-e2e",
+    "test:unit": "wp-scripts test-unit-js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eatbuildplay/exercise-tracker.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/eatbuildplay/exercise-tracker/issues"
+  },
+  "homepage": "https://github.com/eatbuildplay/exercise-tracker#readme",
+  "devDependencies": {
+    "@wordpress/scripts": "^12.5.0"
+  }
+}
