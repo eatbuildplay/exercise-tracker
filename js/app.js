@@ -21,11 +21,19 @@ function editButtonClick() {
 
   $( document ).on('click', '.edit-button', function() {
 
+    console.log(24)
+
     let itemId = $(this).data('id');
     let item = window.objects[itemId];
 
-    let formParent = $('#add-log-entry');
-    let form = $('#edit-exercise-log-form');
+    var formParent = $('#add-log-entry');
+
+    console.log( formParent )
+
+    var form = $('#edit-exercise-log-form');
+
+    console.log( form )
+
     const formClone = form.clone(1, 1);
     formParent.html( formClone );
     formClone.find('form').attr('data-id', itemId);

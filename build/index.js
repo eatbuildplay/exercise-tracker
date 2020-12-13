@@ -102,6 +102,18 @@ var _wp$element = wp.element,
     render = _wp$element.render,
     useState = _wp$element.useState;
 
+var AppHeader = function AppHeader() {
+  return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("header", null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("img", {
+    src: "https://picsum.photos/50"
+  }));
+};
+
+var AppFooter = function AppFooter() {
+  return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("footer", null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("img", {
+    src: "https://picsum.photos/50"
+  }));
+};
+
 var CloseEditForm = function CloseEditForm() {
   function doClose(e) {
     e.preventDefault();
@@ -113,8 +125,9 @@ var CloseEditForm = function CloseEditForm() {
   }, "CLOSEX"));
 };
 
-var parent = document.getElementById('edit-form-close-icon');
-render(Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(CloseEditForm, null), parent);
+render(Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(AppHeader, null), document.getElementById('app-header'));
+render(Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(CloseEditForm, null), document.getElementById('edit-form-close-icon'));
+render(Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(AppFooter, null), document.getElementById('app-footer'));
 
 /***/ }),
 

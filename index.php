@@ -22,11 +22,7 @@ print '</script>';
 <body>
 
   <!-- Header -->
-  <header>
-    <img src="https://picsum.photos/50" />
-  </header>
-
-
+  <div id="app-header"></div>
 
   <div id="app-body">
 
@@ -52,9 +48,7 @@ print '</script>';
   </div>
 
   <!-- Footer -->
-  <footer>
-    <img src="https://picsum.photos/50" />
-  </footer>
+  <div id="app-footer"></id>
 
   <?php
     require_once( get_template_directory() . '/php/add_exercise_log_form.php');
